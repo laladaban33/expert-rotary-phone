@@ -103,7 +103,7 @@ def start_attack():
 
 # GUI Setup
 root = tk.Tk()
-root.title("Network Stress Tester")
+root.title("github.com/laladaban33")
 root.geometry("500x450")
 
 tk.Label(root, text="Target IP:").pack()
