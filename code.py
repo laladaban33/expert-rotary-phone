@@ -76,7 +76,8 @@ def show_info():
         "Medium: 100-500 - Can slow down or even shut off connection\n"
         "High: 1000+ - Might fry your router\n"
         "UDP Flood - Multiplies byte size/packet\n"
-        "HTTP/TCP Flood - How many bots sending packets"
+        "HTTP/TCP Flood - Amount of bots sending packets (size 1024b)\n"
+        "Ports - Usually 80 or 443"
     )
     console.insert(tk.END, f"\n{info_text}\n")
     console.see(tk.END)
