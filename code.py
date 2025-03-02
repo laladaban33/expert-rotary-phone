@@ -109,6 +109,10 @@ root = tk.Tk()
 root.title("github.com/laladaban33")
 root.geometry("500x450")
 
+# Add a label with "github.com/laladaban33"
+github_label = tk.Label(root, text="github.com/laladaban33", font=("Arial", 12, "bold"))
+github_label.pack()
+
 tk.Label(root, text="Target IP:").pack()
 ip_entry = tk.Entry(root)
 ip_entry.pack()
