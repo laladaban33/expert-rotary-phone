@@ -78,7 +78,8 @@ def show_info():
         "UDP Flood - Byte/packet size (exponential)\n"
         "HTTP/TCP Flood - Amount of bots sending packets\n"
         "HTTP - For websites\n"
-        "Ports - Usually 80 or 443"
+        "Ports - Websites - Usually 80 or 443\n"
+        "Ports - Networks - 53, 67, 68, 22, 23, 161, 162"
     )
     console.insert(tk.END, f"\n{info_text}\n")
     console.see(tk.END)
